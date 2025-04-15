@@ -37,7 +37,13 @@ npm install
 yarn install
 ```
 
-3. Start the development server:
+3. Create a `.env.local` file and add your OpenAI API key:
+
+```bash
+OPENAI_API_KEY=your_openai_api_key
+```
+
+4. Start the development server:
 
 ```bash
 npm run dev
