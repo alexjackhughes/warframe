@@ -1,15 +1,6 @@
 # Warframe Terminal
 
-A modern, AI-powered terminal interface for Warframe players. This project provides a sleek and intuitive terminal-like experience for interacting with Warframe-related data and features.
-
-## Features
-
-- 🎮 Modern terminal-style interface
-- 🤖 AI-powered assistance
-- 🎨 Beautiful UI with dark/light mode support
-- ⚡ Fast and responsive design
-- 📱 Mobile-friendly interface
-- 🔍 Advanced search capabilities
+A modern, AI-powered terminal interface. This project provides a sleek and intuitive terminal-like experience for interacting with AIs the way you imagined them.
 
 ## Tech Stack
 
@@ -34,8 +25,8 @@ A modern, AI-powered terminal interface for Warframe players. This project provi
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/warframe-terminal.git
-cd warframe-terminal
+git clone https://github.com/alexjackhughes/warframe
+cd warframe
 ```
 
 2. Install dependencies:
@@ -80,7 +71,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is released into the public domain under the [Unlicense](https://unlicense.org/). You are free to use, modify, distribute, and sell this software for any purpose, with or without attribution.
 
 ## Acknowledgments
 
