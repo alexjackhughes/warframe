@@ -1,13 +1,26 @@
 "use client";
 
-import { useState, type KeyboardEvent, useEffect, useRef } from "react";
+import {
+  useState,
+  type KeyboardEvent,
+  useEffect,
+  useRef,
+  type ChangeEvent,
+} from "react";
 
 interface TerminalInputProps {
-  onSendMessage: (message: string) => void;
+  input: string;
+  onInputChange: (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+  ) => void;
+  onSubmit: () => void;
 }
 
-export function TerminalInput({ onSendMessage }: TerminalInputProps) {
-  const [input, setInput] = useState("");
+export function TerminalInput({
+  input,
+  onInputChange,
+  onSubmit,
+}: TerminalInputProps) {
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -25,10 +38,13 @@ export function TerminalInput({ onSendMessage }: TerminalInputProps) {
     audio.play().catch(() => {});
 
     if (e.key === "Enter") {
+      e.preventDefault(); // Prevent form submission
       if (input.trim() !== "") {
-        onSendMessage(input);
+        onSubmit();
         setCommandHistory((prev) => [...prev, input]);
-        setInput("");
+        onInputChange({
+          target: { value: "" },
+        } as ChangeEvent<HTMLInputElement>);
         setHistoryIndex(-1);
       }
     } else if (e.key === "ArrowUp") {
@@ -39,17 +55,27 @@ export function TerminalInput({ onSendMessage }: TerminalInputProps) {
       ) {
         const newIndex = historyIndex + 1;
         setHistoryIndex(newIndex);
-        setInput(commandHistory[commandHistory.length - 1 - newIndex]);
+        onInputChange({
+          target: {
+            value: commandHistory[commandHistory.length - 1 - newIndex],
+          },
+        } as ChangeEvent<HTMLInputElement>);
       }
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
       if (historyIndex > 0) {
         const newIndex = historyIndex - 1;
         setHistoryIndex(newIndex);
-        setInput(commandHistory[commandHistory.length - 1 - newIndex]);
+        onInputChange({
+          target: {
+            value: commandHistory[commandHistory.length - 1 - newIndex],
+          },
+        } as ChangeEvent<HTMLInputElement>);
       } else if (historyIndex === 0) {
         setHistoryIndex(-1);
-        setInput("");
+        onInputChange({
+          target: { value: "" },
+        } as ChangeEvent<HTMLInputElement>);
       }
     }
   };
@@ -62,7 +88,7 @@ export function TerminalInput({ onSendMessage }: TerminalInputProps) {
         ref={inputRef}
         type="text"
         value={input}
-        onChange={(e) => setInput(e.target.value)}
+        onChange={onInputChange}
         onKeyDown={handleKeyDown}
         className="flex-1 bg-transparent text-green-500 placeholder:text-green-500 outline-none font-mono text-sm md:text-base"
         placeholder="ENTER COMMAND..."
