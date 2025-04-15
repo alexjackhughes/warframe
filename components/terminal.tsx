@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { MarkdownRenderer } from "./markdown-renderer";
 
 interface TerminalProps {
   messages: { id: string; role: string; content: string }[];
@@ -87,9 +88,13 @@ export function Terminal({ messages, isTyping }: TerminalProps) {
                   index === currentMessageIndex && isTypingResponse && "blink"
                 )}
               >
-                {index === currentMessageIndex && isTypingResponse
-                  ? typedText
-                  : message.content}
+                {index === currentMessageIndex && isTypingResponse ? (
+                  typedText
+                ) : message.role === "assistant" ? (
+                  <MarkdownRenderer content={message.content} />
+                ) : (
+                  message.content
+                )}
               </span>
             </div>
           </div>
