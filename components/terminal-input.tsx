@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type KeyboardEvent } from "react";
+import { useState, type KeyboardEvent, useEffect, useRef } from "react";
 
 interface TerminalInputProps {
   onSendMessage: (message: string) => void;
@@ -10,6 +10,13 @@ export function TerminalInput({ onSendMessage }: TerminalInputProps) {
   const [input, setInput] = useState("");
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     // Play key press sound
@@ -52,6 +59,7 @@ export function TerminalInput({ onSendMessage }: TerminalInputProps) {
       <div className="absolute inset-0 pointer-events-none bg-scanline opacity-10"></div>
       <span className="text-green-500 mr-2 font-mono font-bold">{">"}</span>
       <input
+        ref={inputRef}
         type="text"
         value={input}
         onChange={(e) => setInput(e.target.value)}
